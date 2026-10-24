@@ -1,0 +1,9 @@
+{
+    "commands": {
+        "invites": {
+            "description": "Muestra el número de invitaciones de un usuario.",
+            "userOption": "El usuario que debe comprobar las invitaciones",
+            "noInvite": "No contiene invitaciones"
+        }
+    }
+}

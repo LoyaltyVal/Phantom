@@ -1,0 +1,10 @@
+{
+    "commands": {
+        "invites": {
+            "noInvite": "Does not contain invitations",
+            "embedSuccess": {
+              "color": ""
+            }
+        }
+    }
+}

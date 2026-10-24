@@ -1,0 +1,6 @@
+{
+    "TOKEN": "Your discord bot token",
+    "CLIENT_ID": "Your discord bot Id",
+    "DEFAULT_PREFIX": "!",
+    "MONGODB_URI": "Your db uri"
+}
