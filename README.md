@@ -14,7 +14,7 @@ Phantom is a JavaScript-based multi-function Discord bot designed exclusively fo
 
 1. Clone this repository to your local machine.
 
-`git clone https://github.com/helydev/Phantom`
+`git clone https://github.com/loyaltyVal/Phantom`
 
 2. Install the dependencies.
 
