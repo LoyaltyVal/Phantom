@@ -35,17 +35,19 @@ Other Phantom modules have dedicated reference pages and list their current Disc
 
 ### Run locally
 
-1. Create a Discord application and OAuth client in the [Discord Developer Portal](https://discord.com/developers/applications). Add `http://localhost:3000/auth/callback` as an OAuth2 redirect URL. Enable the bot in a test server and grant it the permissions needed by the modules you plan to use.
+1. Create a Discord application and OAuth client in the [Discord Developer Portal](https://discord.com/developers/applications). Add `http://localhost:3000/auth/callback` as an OAuth2 redirect URL. Enable the bot in a test server and grant it the permissions needed by the modules you plan to use. Enable the **Server Members Intent** and **Message Content Intent** in the bot settings. Phantom uses member events and text-prefix commands; the dashboard also checks each admin's current server roles.
 2. Copy `.env.example` to `.env` and fill in the Discord application ID, OAuth client secret, bot token, and MongoDB connection URI. `.env` is ignored by Git. Never commit real credentials.
-3. Start the web dashboard with `npm run website`, then open `http://localhost:3000` and sign in with Discord.
+3. Start both processes: run `npm start` for the Discord bot and `npm run website` for the dashboard (in separate terminals). Then open `http://localhost:3000` and sign in with Discord.
 
 Use the same MongoDB database URI in the bot's private `config.json` and the dashboard's private `.env`, so web changes and bot commands share server settings.
 
-For deployment, use HTTPS, set `NODE_ENV=production`, set `APP_ORIGIN` and `DISCORD_REDIRECT_URI` to the site's HTTPS URLs, and store all credentials in your hosting provider's private environment settings. The dashboard uses in-memory sessions; restart logs users out. Use a persistent session store before running multiple web instances.
+For deployment, use Node.js 20 or newer and HTTPS. Run the Discord bot and dashboard as separate managed processes, both using the same MongoDB database. Set `NODE_ENV=production`, set `APP_ORIGIN` to the HTTPS site origin, set `DISCORD_REDIRECT_URI` to `APP_ORIGIN/auth/callback`, and store all credentials in your hosting provider's private environment settings. Production dashboard startup validates the bot token and database connection before listening. `/healthz` is a dashboard/database readiness endpoint. The dashboard status badge uses a bot heartbeat; posting ticket and verification panels requires the bot gateway process to be online. Sessions and one-time OAuth state are stored in MongoDB using hashed keys and expire automatically; app instances can share that database. `SESSION_TTL_HOURS` controls sign-in duration and defaults to 12 hours. The built-in request rate limits are per process, so use a shared rate limiter at the edge if you run multiple instances.
 
 After sign-in, the dashboard checks every server returned by Discord for the current user, then lists every server where the user has Manage Server or Administrator permission and Phantom is installed. There is no hard-coded server list or server-count limit. The Add Phantom link lets an admin install the bot in another server; refresh the list after the install completes.
 
 Only Discord users with Manage Server or Administrator permission can access a server's dashboard. The backend checks those permissions again for every server request, and checks that Phantom is installed in the selected server. It does not ask for or store a Discord user access token after login. The install link requests the permissions used by the current ticket, audit log, and verification modules.
+
+The dashboard stores the signed-in account's display name, avatar hash, and server permission snapshot in MongoDB for the session lifetime. Session IDs and one-time OAuth state are stored as SHA-256 hashes; Discord user access tokens are discarded after sign-in. Restrict database network access and credentials to the bot and dashboard services.
 
 
 ## Addons

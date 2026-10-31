@@ -13,6 +13,7 @@ setupClientProperties(client);
 
 // Cargar addons
 loadAddons(client);
+trackBotHeartbeat(client);
 
 // Iniciar sesión
 loginToDiscord(client);
@@ -26,6 +27,20 @@ function connectMongo() {
   mongoose.connect(MONGODB_URI)
    .then(() => client.info('Connected to MongoDB'))
    .catch((err) => console.error('Error connecting to MongoDB:', err));
+}
+
+function trackBotHeartbeat(client) {
+  client.once('ready', () => {
+    const BotStatus = require('./models/botStatusModel');
+    const beat = () => {
+      if (!client.isReady()) return;
+      BotStatus.findOneAndUpdate({ _id: 'primary' }, { lastSeenAt: new Date() }, { upsert: true })
+        .catch(error => console.error('Could not update the bot heartbeat:', error.message));
+    };
+    beat();
+    const timer = setInterval(beat, 30000);
+    timer.unref();
+  });
 }
 
 

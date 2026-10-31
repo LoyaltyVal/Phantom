@@ -1,11 +1,17 @@
-const { GatewayIntentBits, Partials} = require('discord.js')
+const { GatewayIntentBits, Partials } = require('discord.js');
 
 module.exports = {
   botConfig: {
     allowedMentions: { parse: ['users', 'roles'] },
     intents: [
-      Object.keys(GatewayIntentBits)
+      GatewayIntentBits.Guilds,
+      GatewayIntentBits.GuildMembers,
+      GatewayIntentBits.GuildModeration,
+      GatewayIntentBits.GuildMessages,
+      GatewayIntentBits.GuildMessageReactions,
+      GatewayIntentBits.GuildInvites,
+      GatewayIntentBits.MessageContent,
     ],
-    partials: [Object.keys(Partials)]
+    partials: [Partials.Channel, Partials.GuildMember, Partials.Message, Partials.Reaction, Partials.User],
   },
 };
