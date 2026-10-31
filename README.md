@@ -1,7 +1,5 @@
 # Phantom - Multi-Function Discord Bot
 
-![Phantom Logo](link_to_your_logo_image.png)
-
 Phantom is a JavaScript-based multi-function Discord bot designed exclusively for personal use and buyers. This bot allows you to enhance the experience on your Discord server with a customizable addon architecture that lets you create and add your own functions to the bot as needed.
 
 ## Key Features
@@ -12,23 +10,42 @@ Phantom is a JavaScript-based multi-function Discord bot designed exclusively fo
 
 ## Installation and Usage
 
-1. Clone this repository to your local machine.
+1. Clone the repository URL you use for this project.
 
-`git clone https://github.com/loyaltyVal/Phantom`
+`git clone <your-repository-url>`
 
 2. Install the dependencies.
 
 `npm install`
 
-3. Configure your Discord bot and obtain a bot token from the [Discord Developer Portal](https://discord.com/developers/applications).
+3. Copy `config-example.json` to `config.json` and add the bot token, application ID, default prefix, and MongoDB URI. Keep `config.json` private; it is excluded from Git.
 
-4. Rename a `.env-example` to `.env` file in the project's root directory and place your Discord bot token and the other required settings.
+4. Run `npm start` to start the bot.
 
-5. Run the bot.
+## Admin dashboard
 
-`node index.js`
+Phantom includes a Discord-authenticated server dashboard. Admins can select servers where they have **Manage Server** or **Administrator** access and the bot is installed. The dashboard has live controls for:
 
-6. Phantom should now be running on your Discord server.
+- Audit log channel and enable/disable setting
+- Ticket log and transcript channels, ticket categories, and ticket panels
+- Captcha verification panels and assigned roles
+- Server text-command prefix
+
+Other Phantom modules have dedicated reference pages and list their current Discord commands. Their settings are not editable from the website because the bot does not currently expose web controls for them.
+
+### Run locally
+
+1. Create a Discord application and OAuth client in the [Discord Developer Portal](https://discord.com/developers/applications). Add `http://localhost:3000/auth/callback` as an OAuth2 redirect URL. Enable the bot in a test server and grant it the permissions needed by the modules you plan to use.
+2. Copy `.env.example` to `.env` and fill in the Discord application ID, OAuth client secret, bot token, and MongoDB connection URI. `.env` is ignored by Git. Never commit real credentials.
+3. Start the web dashboard with `npm run website`, then open `http://localhost:3000` and sign in with Discord.
+
+Use the same MongoDB database URI in the bot's private `config.json` and the dashboard's private `.env`, so web changes and bot commands share server settings.
+
+For deployment, use HTTPS, set `NODE_ENV=production`, set `APP_ORIGIN` and `DISCORD_REDIRECT_URI` to the site's HTTPS URLs, and store all credentials in your hosting provider's private environment settings. The dashboard uses in-memory sessions; restart logs users out. Use a persistent session store before running multiple web instances.
+
+After sign-in, the dashboard checks every server returned by Discord for the current user, then lists every server where the user has Manage Server or Administrator permission and Phantom is installed. There is no hard-coded server list or server-count limit. The Add Phantom link lets an admin install the bot in another server; refresh the list after the install completes.
+
+Only Discord users with Manage Server or Administrator permission can access a server's dashboard. The backend checks those permissions again for every server request, and checks that Phantom is installed in the selected server. It does not ask for or store a Discord user access token after login. The install link requests the permissions used by the current ticket, audit log, and verification modules.
 
 
 ## Addons

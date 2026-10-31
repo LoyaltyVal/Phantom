@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101011">
+  <meta name="description" content="Manage your Phantom Discord server tools.">
+  <title>Phantom · Server dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Phantom dashboard home"><span class="brand-mark">P</span><span>phantom<span class="brand-period">.</span></span></a>
+    <nav class="top-links" aria-label="Main navigation"><a href="#commands" data-page="commands">Commands</a><a href="#modules" data-page="modules">Modules</a><a href="https://discord.com/developers/docs" target="_blank" rel="noreferrer">Discord docs <span class="outbound">↗</span></a></nav>
+    <div class="top-right" id="accountArea"><button class="button button-secondary" id="loginButton">Sign in with Discord</button></div>
+    <button class="mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button>
+  </header>
+  <aside class="sidebar" id="sidebar">
+    <div class="server-picker"><span class="server-icon" id="serverIcon">P</span><span class="server-meta"><strong id="serverName">Choose a server</strong><small id="serverMembers">Your Discord servers</small></span><span class="chevron">⌄</span></div>
+    <label class="guild-select-label" for="guildPicker">YOUR SERVERS</label>
+    <select id="guildPicker" aria-label="Choose a Discord server" disabled><option>Sign in to choose a server</option></select>
+    <div class="nav-group"><div class="nav-label">Workspace</div>
+      <a class="nav-item active" href="#home" data-page="home"><span class="nav-icon">⌂</span>Overview</a>
+      <a class="nav-item" href="#modules" data-page="modules"><span class="nav-icon">◈</span>All modules<span class="nav-count">7</span></a>
+      <a class="nav-item" href="#commands" data-page="commands"><span class="nav-icon">⌘</span>Command library</a>
+    </div>
+    <div class="nav-group"><div class="nav-label">Server tools</div>
+      <a class="nav-item" href="#moderation" data-page="moderation"><span class="nav-icon">◇</span>Moderation &amp; logs</a>
+      <a class="nav-item" href="#tickets" data-page="tickets"><span class="nav-icon">▤</span>Tickets</a>
+      <a class="nav-item" href="#verification" data-page="verification"><span class="nav-icon">✓</span>Verification</a>
+      <a class="nav-item" href="#invites" data-page="invites"><span class="nav-icon">↗</span>Invites</a>
+      <a class="nav-item" href="#economy" data-page="economy"><span class="nav-icon">◉</span>Economy</a>
+      <a class="nav-item" href="#fun" data-page="fun"><span class="nav-icon">✳</span>Fun &amp; games</a>
+      <a class="nav-item" href="#settings" data-page="settings"><span class="nav-icon">⚙</span>Server settings</a>
+    </div>
+    <div class="sidebar-bottom"><div class="bot-status"><span class="status-dot"></span><span><strong>Phantom dashboard</strong><small id="connectionState">Sign in to get started</small></span></div><div class="sidebar-foot">Server tools for your community <span>✦</span></div></div>
+  </aside>
+  <main class="main-content" id="mainContent" aria-live="polite"><div class="loading-state">Loading your dashboard…</div></main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="/app.js" defer></script>
+</body>
+</html>
